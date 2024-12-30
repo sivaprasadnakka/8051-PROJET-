@@ -1,1 +1,66 @@
+#include<reg51.h>
+sbit rs = P1^0;
+sbit en = P1^1;
+void delay(unsigned int count)
+{
+	unsigned int i;
+	while(count)
+	{
+		i = 115;
+		while(i > 0)
+			i--;
+		count--;
+	}
+}
 
+void lcd_data(unsigned char abc)
+{
+	rs = 1;
+	P2 = abc;
+	en = 1;
+	delay(50);
+	en = 0;
+}
+void lcd_cmd(unsigned char abc)
+{
+	rs = 0;
+	P2 = abc;
+	en = 1;
+	delay(50);
+	en = 0;
+}
+
+void main()
+{
+	lcd_cmd(0x38);	// initialize
+	lcd_cmd(0x02);	// return home
+	lcd_cmd(0x01);	// clear display
+	lcd_cmd(0x0C);	// Display ON cursor OFF
+	lcd_cmd(0x06);
+	lcd_cmd(0x85);	 //0x80 first row ,0x85 is center position
+	lcd_data('A');
+	lcd_data('D');
+	lcd_data('V');
+	lcd_data('A');
+	lcd_data('N');
+	lcd_data('C');
+	lcd_data('E');
+	lcd_cmd(0xC2);	// 0xC0 address of 2nd Row
+	lcd_data('H');
+	lcd_data('A');
+	lcd_data('P');
+	lcd_data('P');
+	lcd_data('Y');
+	lcd_data('N');
+	lcd_data('e');
+	lcd_data('W');
+	lcd_data('Y');
+	lcd_data('E');
+	lcd_data('A');
+	lcd_data('R');
+	
+	while(1)
+	{
+	
+	}
+}
